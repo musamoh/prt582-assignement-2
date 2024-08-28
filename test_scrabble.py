@@ -40,18 +40,20 @@ def test_invalid_score(word, expected):
 
 # Test for valid dictionary word
 @pytest.mark.parametrize(
-    "word",
+    "word, expected",
     [
-        ("a"),
-        ("z"),
-        ("dog"),
-        ("cat"),
-        ("dogcat"),
-        ("WORLD"),
+        ("a", True),
+        ("z", True),
+        ("Gombe", False),
+        ("Hakimi", False),
+        ("dog", True),
+        ("cat", True),
+        ("dogcat", True),
+        ("WORLD", True),
     ],
 )
-def test_valid_dictionary_word(word):
-    assert validate_word(word) is True
+def test_valid_dictionary_word(word, expected):
+    assert validate_word(word) == expected
 
 
 # Test for invalid word
