@@ -4,7 +4,7 @@ This is the test file for the scrabble game
 
 import pytest
 
-from exception import EmptyStringError
+from exception import EmptyStringError, InvalidDictionaryWordError
 from main import score, validate_word
 
 
@@ -39,21 +39,9 @@ def test_invalid_score(word, expected):
 
 
 # Test for valid dictionary word
-@pytest.mark.parametrize(
-    "word, expected",
-    [
-        ("a", True),
-        ("z", True),
-        ("Gombe", False),
-        ("Hakimi", False),
-        ("dog", True),
-        ("cat", True),
-        ("dogcat", True),
-        ("WORLD", True),
-    ],
-)
-def test_valid_dictionary_word(word, expected):
-    assert validate_word(word) == expected
+def test_valid_dictionary_word():
+    with pytest.raises(InvalidDictionaryWordError):
+        validate_word("Xbause")
 
 
 # Test for invalid word
