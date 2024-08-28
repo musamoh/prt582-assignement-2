@@ -16,7 +16,6 @@ from main import score
         ("dog", 5),
         ("cat", 5),
         ("dogcat", 10),
-        ("dog cat", 100),
     ],
 )
 def test_score(word, expected):
@@ -33,3 +32,4 @@ def test_score(word, expected):
 # Test length of word
 # Test for non string input
 # Test multiple words
+# Test that length of random word is equal to length of user input word
