@@ -1,3 +1,5 @@
+from exception import EmptyStringError
+
 alphabeth = {
     "A": 1,
     "E": 1,
@@ -31,3 +33,9 @@ alphabeth = {
 def score(word: str) -> int:
     total = sum([alphabeth.get(i.upper()) for i in word])
     return total
+
+
+def validate_word(word: str) -> None:
+    if not word:
+        raise EmptyStringError("Empty string is not allowed")
+    return None
