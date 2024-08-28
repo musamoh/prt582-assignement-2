@@ -39,6 +39,21 @@ def test_invalid_score(word, expected):
 
 
 # Test for valid dictionary word
+@pytest.mark.parametrize(
+    "word",
+    [
+        ("a"),
+        ("z"),
+        ("dog"),
+        ("cat"),
+        ("dogcat"),
+        ("WORLD"),
+    ],
+)
+def test_valid_dictionary_word(word):
+    assert validate_word(word) is True
+
+
 # Test for invalid word
 # Test uppercase letter and lowercase letter are the same
 @pytest.mark.parametrize(
