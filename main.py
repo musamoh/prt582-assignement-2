@@ -33,6 +33,7 @@ alphabeth = {
 
 
 def score(word: str) -> int:
+    word = word.strip()
     total = sum([alphabeth.get(i.upper()) for i in word])
     return total
 

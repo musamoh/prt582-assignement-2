@@ -84,7 +84,7 @@ def test_for_mixed_case_and_special_characters():
 
 # test for white space handling
 def test_for_white_space_handling():
-    assert score(" hello") == 20
+    assert score(" hello") == 8
 
 
 # Test length of word
