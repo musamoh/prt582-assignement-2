@@ -38,6 +38,12 @@ alphabeth = {
 
 
 def validate_word(word: str) -> None:
+    """
+    validate the word to ensure it is a valid dictionary word,
+    a single word and a string and not empty
+    :param word:
+    :return: None
+    """
 
     if not word:
         raise EmptyStringError("Empty string is not allowed")
@@ -54,6 +60,13 @@ def validate_word(word: str) -> None:
 
 
 def score(word: str) -> int:
+    """
+    Calculate the score of a word based on the scrabble game
+    :param word:
+    :return: int
+    """
     validate_word(word)
-    total = sum([alphabeth.get(i.upper()) for i in word])
+    total = sum(
+        [alphabeth.get(i.upper()) for i in word]
+    )  # pylint: disable=consider-using-generator
     return total
