@@ -89,5 +89,9 @@ def test_for_white_space_handling():
 
 # Test length of word
 # Test for non string input
+def test_for_non_string_input():
+    assert score(1234) == 10
+
+
 # Test multiple words
 # Test that length of random word is equal to length of user input word
