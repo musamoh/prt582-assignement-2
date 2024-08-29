@@ -1,4 +1,6 @@
-from exception import EmptyStringError
+from wordfreq import word_frequency
+
+from exception import EmptyStringError, InvalidDictionaryWordError
 
 alphabeth = {
     "A": 1,
@@ -38,4 +40,7 @@ def score(word: str) -> int:
 def validate_word(word: str) -> None:
     if not word:
         raise EmptyStringError("Empty string is not allowed")
+    meaning = word_frequency(word, "en")
+    if meaning <= 0:
+        raise InvalidDictionaryWordError(f"Invalid dictionary word: {word}")
     return None

@@ -39,12 +39,20 @@ def test_invalid_score(word, expected):
 
 
 # Test for valid dictionary word
-def test_valid_dictionary_word():
-    with pytest.raises(InvalidDictionaryWordError):
-        validate_word("Xbause")
+def test_for_valid_dictionary_word():
+    try:
+        validate_word("hello")
+    except InvalidDictionaryWordError:
+        pytest.fail("InvalidDictionaryWordError unexpectedly!")
 
 
 # Test for invalid word
+def test_for_invalid_dictionary_word():
+    with pytest.raises(InvalidDictionaryWordError) as e:
+        validate_word("Xbause")
+    assert str(e.value) == "Invalid dictionary word: Xbause"
+
+
 # Test uppercase letter and lowercase letter are the same
 @pytest.mark.parametrize(
     "word",
@@ -68,7 +76,17 @@ def test_empty_string():
 
 
 # Test with mixed case and special characters
+def test_for_mixed_case_and_special_characters():
+    with pytest.raises(InvalidDictionaryWordError) as e:
+        validate_word("Xbause@")
+    assert str(e.value) == "Invalid dictionary word: Xbause@"
+
+
 # test for white space handling
+def test_for_white_space_handling():
+    assert score(" hello") == 20
+
+
 # Test length of word
 # Test for non string input
 # Test multiple words
