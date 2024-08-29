@@ -9,3 +9,7 @@ class InvalidDictionaryWordError(Exception):
 # non string input
 class NonStringInputError(Exception):
     """Non string input exception"""
+
+
+class MultipleWordError(Exception):
+    """Multiple word exception"""

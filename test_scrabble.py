@@ -4,7 +4,12 @@ This is the test file for the scrabble game
 
 import pytest
 
-from exception import EmptyStringError, InvalidDictionaryWordError
+from exception import (
+    EmptyStringError,
+    InvalidDictionaryWordError,
+    MultipleWordError,
+    NonStringInputError,
+)
 from main import score, validate_word
 
 
@@ -87,12 +92,16 @@ def test_for_white_space_handling():
 # Test length of word
 # Test for non string input
 def test_for_non_string_input():
-    assert score(1234) == 10
+    with pytest.raises(NonStringInputError) as exc:
+        validate_word(1234)
+    assert str(exc.value) == "Non string input is not allowed"
 
 
 # Test multiple words
 def test_for_multiple_words():
-    assert score("hello world") == 15
+    with pytest.raises(MultipleWordError) as exc:
+        validate_word("hello world")
+    assert str(exc.value) == "Only one word is allowed"
 
 
 # Test that length of random word is equal to length of user input word

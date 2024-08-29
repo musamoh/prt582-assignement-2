@@ -1,6 +1,11 @@
 from wordfreq import word_frequency
 
-from exception import EmptyStringError, InvalidDictionaryWordError, NonStringInputError
+from exception import (
+    EmptyStringError,
+    InvalidDictionaryWordError,
+    MultipleWordError,
+    NonStringInputError,
+)
 
 alphabeth = {
     "A": 1,
@@ -40,6 +45,9 @@ def validate_word(word: str) -> None:
     if not isinstance(word, str):
         raise NonStringInputError("Non string input is not allowed")
     word = word.strip()
+    if len(word) > 1:
+        raise MultipleWordError("Only one word is allowed")
+
     meaning = word_frequency(word, "en")
     if meaning <= 0:
         raise InvalidDictionaryWordError(f"Invalid dictionary word: {word}")
