@@ -1,3 +1,15 @@
+"""
+  This is the main file for the Scrabble Score game using TDD and automated unit testing tool in python
+
+    The main file contains the following functions:
+    - validate_word: This function validates the word to ensure it is a valid dictionary word,
+    a single word and a string and not empty
+    - score: This function calculates the score of a word based on the scrabble game
+
+    Author: Musa Mohammed
+    email: s384546@students.cdu.edu.au
+"""
+
 from wordfreq import word_frequency
 
 from exception import (
