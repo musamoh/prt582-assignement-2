@@ -16,7 +16,6 @@ from main import score, validate_word
         ("z", 10),
         ("dog", 5),
         ("cat", 5),
-        ("dogcat", 10),
         ("WORLD", 9),
     ],
 )
@@ -30,7 +29,6 @@ def test_for_score(word, expected):
     [
         ("dog", 0),
         ("cat", 0),
-        ("dogcat", 0),
         ("WORLD", 0),
     ],
 )
@@ -61,7 +59,6 @@ def test_for_invalid_dictionary_word():
         ("z"),
         ("dog"),
         ("cat"),
-        ("dogcat"),
         ("WORLD"),
     ],
 )
@@ -94,4 +91,8 @@ def test_for_non_string_input():
 
 
 # Test multiple words
+def test_for_multiple_words():
+    assert score("hello world") == 15
+
+
 # Test that length of random word is equal to length of user input word

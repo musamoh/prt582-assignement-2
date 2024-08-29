@@ -1,6 +1,6 @@
 from wordfreq import word_frequency
 
-from exception import EmptyStringError, InvalidDictionaryWordError
+from exception import EmptyStringError, InvalidDictionaryWordError, NonStringInputError
 
 alphabeth = {
     "A": 1,
@@ -32,16 +32,20 @@ alphabeth = {
 }
 
 
-def score(word: str) -> int:
-    word = word.strip()
-    total = sum([alphabeth.get(i.upper()) for i in word])
-    return total
-
-
 def validate_word(word: str) -> None:
+
     if not word:
         raise EmptyStringError("Empty string is not allowed")
+
+    if not isinstance(word, str):
+        raise NonStringInputError("Non string input is not allowed")
+    word = word.strip()
     meaning = word_frequency(word, "en")
     if meaning <= 0:
         raise InvalidDictionaryWordError(f"Invalid dictionary word: {word}")
-    return None
+
+
+def score(word: str) -> int:
+    validate_word(word)
+    total = sum([alphabeth.get(i.upper()) for i in word])
+    return total

@@ -4,3 +4,8 @@ class EmptyStringError(Exception):
 
 class InvalidDictionaryWordError(Exception):
     """Invalid dictionary word exception"""
+
+
+# non string input
+class NonStringInputError(Exception):
+    """Non string input exception"""
