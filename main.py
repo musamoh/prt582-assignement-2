@@ -78,7 +78,13 @@ def score(word: str) -> int:
     :return: int
     """
     validate_word(word)
-    total = sum(
-        [alphabeth.get(i.upper()) for i in word]
-    )  # pylint: disable=consider-using-generator
+    total = sum([alphabeth.get(i.upper()) for i in word])
     return total
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    pass
