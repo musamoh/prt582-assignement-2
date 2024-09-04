@@ -9,8 +9,10 @@ from exception import (
     InvalidDictionaryWordError,
     MultipleWordError,
     NonStringInputError,
+    DuplicateInputError,
 )
-from main import score, validate_word
+import tkinter as tk
+from main import score, validate_word, ScrabbleGame
 
 
 # Test for valid score
@@ -104,4 +106,80 @@ def test_for_multiple_words():
     assert str(exc.value) == "Only one word is allowed"
 
 
-# Test that length of random word is equal to length of user input word
+#  Test for game is initialized correctly
+def test_init():
+    game = ScrabbleGame()
+    assert isinstance(game.top, tk.Tk)
+    assert game.ctr == 15
+    assert game.attempts == 0
+    assert game.total_score == 0
+
+
+def test_timer():
+    game = ScrabbleGame()
+    assert game.ctr == 15  # Check if timer is set to 15 seconds
+
+
+def test_case_sensitivity():
+    game = ScrabbleGame()
+    game.random_number = 5
+    game.entry_1.insert(0, "HELLO")
+    game.entry_get()
+    assert (
+        game.total_score == 8
+    )  # Check if upper-case letters are treated the same as lower-case
+
+
+def test_non_alphabetic_input():
+    game = ScrabbleGame()
+    game.random_number = 5
+    game.entry_1.insert(0, "12345")
+    game.entry_get()
+    assert game.total_score == 0  # Check if non-alphabetic input is rejected
+
+
+def test_word_length():
+    game = ScrabbleGame()
+    game.random_number = 5
+    game.entry_1.insert(0, "hello")
+    game.entry_get()
+    assert (
+        game.total_score == 8
+    )  # Check if score is calculated correctly for correct word length
+
+
+def test_incorrect_word_length():
+    game = ScrabbleGame()
+    game.random_number = 5
+    game.entry_1.insert(0, "hi")
+    game.entry_get()
+    assert (
+        game.total_score == 0
+    )  # Check if score is not calculated for incorrect word length
+
+
+def test_game_over():
+    game = ScrabbleGame()
+    game.attempts = 10
+    game.entry_get()
+    assert game.ctr == 15  # Check if game resets after 10 attempts
+
+
+def test_score_after_10_attempts():
+    game = ScrabbleGame()
+    for _ in range(10):
+        game.random_number = 5
+        game.entry_1.insert(0, "hello")
+        game.entry_get()
+    assert (
+        game.total_score == 80
+    )  # Check if total score is calculated correctly after 10 attempts
+
+
+# Test to avoid repeated words in the 10 attempts
+def test_repeated_words():
+    game = ScrabbleGame()
+    game.word_list = ["hello", "world"]
+    with pytest.raises(DuplicateInputError) as ext:
+        game.entry_1.insert(0, "hello")
+    assert str(ext.value) == "Word already used"

@@ -13,3 +13,7 @@ class NonStringInputError(Exception):
 
 class MultipleWordError(Exception):
     """Multiple word exception"""
+
+
+class DuplicateInputError(Exception):
+    """Duplicate input exception"""
