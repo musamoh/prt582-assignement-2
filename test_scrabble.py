@@ -10,6 +10,7 @@ from exception import (
     MultipleWordError,
     NonStringInputError,
     DuplicateInputError,
+    InvalidInputLengthError,
 )
 from main import score, validate_word
 
@@ -112,3 +113,12 @@ def test_for_duplicate_input():
         word_list = ["hello"]
         validate_word("hello", word_list)
     assert str(exc.value) == "Duplicate input: hello was mentioned before"
+
+
+def test_validate_input_length_with_random_length():
+    random_number = 5
+    with pytest.raises(InvalidInputLengthError) as exc:
+        validate_word("hello", [], random_number)
+    assert (
+        str(exc.value) == f"Invalid input length: word length should be {random_number}"
+    )

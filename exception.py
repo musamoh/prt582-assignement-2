@@ -17,3 +17,7 @@ class MultipleWordError(Exception):
 
 class DuplicateInputError(Exception):
     """Duplicate input exception"""
+
+
+class InvalidInputLengthError(Exception):
+    """Invalid input length exception"""
