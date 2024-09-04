@@ -11,7 +11,7 @@
 """
 
 from wordfreq import word_frequency
-from typing import List
+from typing import List, Optional
 
 from exception import (
     EmptyStringError,
@@ -19,6 +19,7 @@ from exception import (
     MultipleWordError,
     NonStringInputError,
     DuplicateInputError,
+    InvalidInputLengthError,
 )
 
 
@@ -52,12 +53,13 @@ ALPHABETS = {
 }
 
 
-def validate_word(word: str, word_list: List) -> None:
+def validate_word(word: str, word_list: List, random_number: Optional[int]) -> None:
     """
     validate the word to ensure it is a valid dictionary word,
     a single word and a string and not empty
     :param word:
     :param word_list:
+    :param random_number:
     :return: None
     """
 
@@ -75,6 +77,10 @@ def validate_word(word: str, word_list: List) -> None:
         raise InvalidDictionaryWordError(f"Invalid dictionary word: {word}")
     if word in word_list:
         raise DuplicateInputError(f"Duplicate input: {word} was mentioned before")
+    if len(word) != random_number:
+        raise InvalidInputLengthError(
+            f"Invalid input length: word length should be {random_number} characters"
+        )
 
 
 def score(word: str) -> int:
