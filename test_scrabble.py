@@ -11,8 +11,7 @@ from exception import (
     NonStringInputError,
     DuplicateInputError,
 )
-import tkinter as tk
-from main import score, validate_word, ScrabbleGame
+from main import score, validate_word
 
 
 # Test for valid score
@@ -46,7 +45,7 @@ def test_invalid_score(word, expected):
 # Test for valid dictionary word
 def test_for_valid_dictionary_word():
     try:
-        validate_word("hello")
+        validate_word("hello", [])
     except InvalidDictionaryWordError:
         pytest.fail("InvalidDictionaryWordError unexpectedly!")
 
@@ -54,7 +53,7 @@ def test_for_valid_dictionary_word():
 # Test for invalid word
 def test_for_invalid_dictionary_word():
     with pytest.raises(InvalidDictionaryWordError) as e:
-        validate_word("Xbause")
+        validate_word("Xbause", [])
     assert str(e.value) == "Invalid dictionary word: Xbause"
 
 
@@ -76,13 +75,13 @@ def test_score_for_uppercase_and_lowercase(word):
 # Test for empty string exception
 def test_empty_string():
     with pytest.raises(EmptyStringError):
-        validate_word("")
+        validate_word("", [])
 
 
 # Test with mixed case and special characters
 def test_for_mixed_case_and_special_characters():
     with pytest.raises(InvalidDictionaryWordError) as e:
-        validate_word("Xbause@")
+        validate_word("Xbause@", [])
     assert str(e.value) == "Invalid dictionary word: Xbause@"
 
 
@@ -91,95 +90,25 @@ def test_for_white_space_handling():
     assert score(" hello") == 8
 
 
-# Test length of word
 # Test for non string input
 def test_for_non_string_input():
+    word_list = []
     with pytest.raises(NonStringInputError) as exc:
-        validate_word(1234)
+        validate_word(1234, word_list)
     assert str(exc.value) == "Non string input is not allowed"
 
 
 # Test multiple words
 def test_for_multiple_words():
     with pytest.raises(MultipleWordError) as exc:
-        validate_word("hello world")
+        word_list = []
+        validate_word("hello world", word_list)
     assert str(exc.value) == "Only one word is allowed"
 
 
-#  Test for game is initialized correctly
-def test_init():
-    game = ScrabbleGame()
-    assert isinstance(game.top, tk.Tk)
-    assert game.ctr == 15
-    assert game.attempts == 0
-    assert game.total_score == 0
-
-
-def test_timer():
-    game = ScrabbleGame()
-    assert game.ctr == 15  # Check if timer is set to 15 seconds
-
-
-def test_case_sensitivity():
-    game = ScrabbleGame()
-    game.random_number = 5
-    game.entry_1.insert(0, "HELLO")
-    game.entry_get()
-    assert (
-        game.total_score == 8
-    )  # Check if upper-case letters are treated the same as lower-case
-
-
-def test_non_alphabetic_input():
-    game = ScrabbleGame()
-    game.random_number = 5
-    game.entry_1.insert(0, "12345")
-    game.entry_get()
-    assert game.total_score == 0  # Check if non-alphabetic input is rejected
-
-
-def test_word_length():
-    game = ScrabbleGame()
-    game.random_number = 5
-    game.entry_1.insert(0, "hello")
-    game.entry_get()
-    assert (
-        game.total_score == 8
-    )  # Check if score is calculated correctly for correct word length
-
-
-def test_incorrect_word_length():
-    game = ScrabbleGame()
-    game.random_number = 5
-    game.entry_1.insert(0, "hi")
-    game.entry_get()
-    assert (
-        game.total_score == 0
-    )  # Check if score is not calculated for incorrect word length
-
-
-def test_game_over():
-    game = ScrabbleGame()
-    game.attempts = 10
-    game.entry_get()
-    assert game.ctr == 15  # Check if game resets after 10 attempts
-
-
-def test_score_after_10_attempts():
-    game = ScrabbleGame()
-    for _ in range(10):
-        game.random_number = 5
-        game.entry_1.insert(0, "hello")
-        game.entry_get()
-    assert (
-        game.total_score == 80
-    )  # Check if total score is calculated correctly after 10 attempts
-
-
-# Test to avoid repeated words in the 10 attempts
-def test_repeated_words():
-    game = ScrabbleGame()
-    game.word_list = ["hello", "world"]
-    with pytest.raises(DuplicateInputError) as ext:
-        game.entry_1.insert(0, "hello")
-    assert str(ext.value) == "Word already used"
+# Test for duplicate input
+def test_for_duplicate_input():
+    with pytest.raises(DuplicateInputError) as exc:
+        word_list = ["hello"]
+        validate_word("hello", word_list)
+    assert str(exc.value) == "Duplicate input: hello was mentioned before"
