@@ -10,11 +10,12 @@
     email: s384546@students.cdu.edu.au
 """
 
-from wordfreq import word_frequency
-from typing import List, Optional
 import random
+from typing import List, Optional
 from tkinter import messagebox
 import tkinter as tk
+from wordfreq import word_frequency
+
 
 from exception import (
     EmptyStringError,
@@ -109,6 +110,11 @@ def score(word: str) -> int:
 
 
 class ScrabbleGame:
+    """
+    This class implements the Scrabble game using tkinter
+    """
+
+    # pylint: disable=too-many-instance-attributes
     def __init__(self):
         self.after_id = None
         self.random_number = None
@@ -122,7 +128,7 @@ class ScrabbleGame:
         window_height = self.top.winfo_reqheight()
         position_right = int(self.top.winfo_screenwidth() / 2 - window_width / 2)
         position_down = int(self.top.winfo_screenheight() / 2 - window_height / 2)
-        self.top.geometry("+{}+{}".format(position_right, position_down))
+        self.top.geometry(f"+{position_right}+{position_down}")
 
         # Instruction label
         tk.Label(
@@ -178,15 +184,27 @@ class ScrabbleGame:
         self.top.mainloop()
 
     def start_timer(self):
+        """
+        Start the timer
+        :return:
+        """
         self.cancel_timer()
         self.update_timer()
 
-    def cancel_timer(self):
+    def cancel_timer(self) -> None:
+        """
+        Cancel the timer
+        :return:
+        """
         if self.after_id is not None:
             self.top.after_cancel(self.after_id)
             self.after_id = None
 
-    def update_timer(self):
+    def update_timer(self) -> None:
+        """
+        Update the timer
+        :return:
+        """
         self.ctr -= 1
         self.lab.config(text=str(self.ctr))  # Update the timer display
         if self.ctr > 0:
@@ -194,17 +212,29 @@ class ScrabbleGame:
         else:
             self.game_over()
 
-    def game_over(self):
+    def game_over(self) -> None:
+        """
+        Game over
+        :return:
+        """
         print("Time's up!")
         self.entry_get()
 
     def generate_prompt(self):
+        """
+        Generate the prompt to get users input
+        :return:
+        """
         # Generate a random word length between 1 and 15
         self.random_number = random.randint(1, 15)
         # Update the prompt label with the required word length
         self.prompt_label.config(text=f"Enter a word of length {self.random_number}")
 
     def entry_get(self):
+        """
+        Get the user input
+        :return:
+        """
         word = self.entry_1.get()
         try:
             validate_word(word, self.word_list, self.random_number)
@@ -246,6 +276,10 @@ class ScrabbleGame:
             self.exit_game()
 
     def exit_game(self):
+        """
+        Exit the game and display a dialog box with the final score
+        :return:
+        """
         messagebox.showinfo("Final Score", f"Your final score is: {self.total_score}")
         self.top.quit()
 
