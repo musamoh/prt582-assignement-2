@@ -18,7 +18,8 @@ cd prt582-assignement-2
 3. create a virtual environment:
 
 ```bash
-python3 -m venv venv
+python3 -m venv venv or
+virtualenv venv
 ```
 4. Activate the virtual environment:
 
