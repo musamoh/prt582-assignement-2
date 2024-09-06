@@ -2,6 +2,8 @@
 This is the test file for the scrabble game
 """
 
+from unittest.mock import patch
+
 import pytest
 
 from exception import (
@@ -12,6 +14,7 @@ from exception import (
     DuplicateInputError,
     InvalidInputLengthError,
 )
+from main import ScrabbleGame
 from main import score, validate_word
 
 
@@ -95,7 +98,7 @@ def test_for_white_space_handling():
 def test_for_non_string_input():
     word_list = []
     with pytest.raises(NonStringInputError) as exc:
-        validate_word(1234, word_list, 5)
+        validate_word(12345, word_list, 5)
     assert str(exc.value) == "Non string input is not allowed"
 
 
@@ -116,10 +119,27 @@ def test_for_duplicate_input():
     assert str(exc.value) == "Duplicate input: hello was mentioned before"
 
 
-def test_validate_input_length_with_random_length():
+@pytest.mark.parametrize(
+    "word, word_list,random_number",
+    [
+        ("hello", [], 2),
+        ("world", ["hello"], 6),
+        ("world", ["hello", "worlds"], 6),
+    ],
+)
+def test_validate_input_length_with_random_length(word, word_list, random_number):
 
     with pytest.raises(InvalidInputLengthError) as exc:
-        validate_word("hello", [], 2)
+        validate_word(word, word_list, random_number)
     assert (
-        str(exc.value) == f"Invalid input length: word length should be {2} characters"
+        str(exc.value)
+        == f"Invalid input length: word length should be {random_number} characters"
     )
+
+
+def test_timer():
+    # Mock the Tkinter GUI
+    with patch("tkinter.Tk") as MockTk:
+        game = ScrabbleGame()
+        assert game.ctr + 1 == 15
+        assert MockTk.called
