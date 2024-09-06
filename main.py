@@ -8,6 +8,12 @@
 
     Author: Musa Mohammed
     email: s384546@students.cdu.edu.au
+
+    reference:
+    https://docs.python.org/3/library/tkinter.html
+    https://pypi.org/project/wordfreq/
+    https://www.w3resource.com/python-exercises/tkinter/python-tkinter-events-and-event-handling-exercise-10.php
+
 """
 
 import random
