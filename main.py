@@ -25,7 +25,6 @@ from exception import (
     InvalidInputLengthError,
 )
 
-
 ALPHABETS = {
     "A": 1,
     "E": 1,
@@ -56,6 +55,19 @@ ALPHABETS = {
 }
 
 
+def is_numeric_string(s: str) -> bool:
+    """
+    Check if a string is numeric
+    :param s: str
+    :return: bool
+    """
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
 def validate_word(word: str, word_list: List, random_number: Optional[int]) -> None:
     """
     validate the word to ensure it is a valid dictionary word,
@@ -69,7 +81,7 @@ def validate_word(word: str, word_list: List, random_number: Optional[int]) -> N
     if not word:
         raise EmptyStringError("Empty string is not allowed")
 
-    if not isinstance(word, str):
+    if is_numeric_string(word):
         raise NonStringInputError("Non string input is not allowed")
     word = word.strip()
     if len(word.split()) > 1:
@@ -102,7 +114,7 @@ class ScrabbleGame:
         self.random_number = None
         self.word_list = []
         self.top = tk.Tk()
-        self.top.title("Word Length Game")
+        self.top.title("Scrabble Score")
         self.top.geometry("500x400")
 
         # Center the window
@@ -187,8 +199,8 @@ class ScrabbleGame:
         self.entry_get()
 
     def generate_prompt(self):
-        # Generate a random word length between 1 and 45
-        self.random_number = random.randint(1, 45)
+        # Generate a random word length between 1 and 15
+        self.random_number = random.randint(1, 15)
         # Update the prompt label with the required word length
         self.prompt_label.config(text=f"Enter a word of length {self.random_number}")
 
@@ -202,6 +214,8 @@ class ScrabbleGame:
                     text=f"Correct! You entered: {word}", bg="green"
                 )
                 self.total_score += score(word)
+                if self.ctr > 0:
+                    self.total_score += 2
                 self.word_list.append(word)
                 self.generate_prompt()
             else:
