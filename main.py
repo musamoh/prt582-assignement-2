@@ -150,6 +150,7 @@ class ScrabbleGame:
         self.entry_1 = tk.Entry(self.top, width=20)
         self.entry_1.pack()
         self.entry_1.focus_set()
+        self.entry_1.bind("<Return>", lambda event: self.entry_get())
 
         # Submit and Exit buttons
         tk.Button(
