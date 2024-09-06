@@ -187,8 +187,8 @@ class ScrabbleGame:
         self.entry_get()
 
     def generate_prompt(self):
-        # Generate a random word length between 3 and 10
-        self.random_number = random.randint(3, 10)
+        # Generate a random word length between 1 and 45
+        self.random_number = random.randint(1, 45)
         # Update the prompt label with the required word length
         self.prompt_label.config(text=f"Enter a word of length {self.random_number}")
 

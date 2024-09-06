@@ -141,5 +141,6 @@ def test_timer():
     # Mock the Tkinter GUI
     with patch("tkinter.Tk") as MockTk:
         game = ScrabbleGame()
+        # The timer is set to 15 seconds in the ScrabbleGame class but a initialization, the capture is 1 second late
         assert game.ctr + 1 == 15
         assert MockTk.called
